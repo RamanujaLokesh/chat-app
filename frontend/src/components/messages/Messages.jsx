@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
   const { loading, messages } = useGetMessages();
+  useListenMessages()
   // console.log(messages);
   const lastMessageRef = useRef();
   useEffect(()=>{
