@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
+import useGetConversations from '../../hooks/useGetConversations'
+import useConversation from '../../zustand/useConversation'
 
 const MessageContainer = () => {
-    const chatSelected = false;
+    const {selectedConversation , setSelectedConversation} = useConversation()
+    useEffect(()=>{
+
+//cleanup function(unselect)
+        return ()=>setSelectedConversation(null)
+    } , [])
+    // const chatSelected = selectedConversation===;
   return (
     <div className='md:min-w-[450px] flex flex-col'>
-        {chatSelected===false?<NoChatSelected/>:(
+        {!selectedConversation?<NoChatSelected/>:(
            <>
            {/* header */}
            <div className='bg-slate-500 px-4 py-2 mb-2'>
              <span className='label-text'>To:
-                 </span> <span className='text-gray-900 font-bold'>SendUserName</span>
+                 </span> <span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
      
            </div>
            <Messages />

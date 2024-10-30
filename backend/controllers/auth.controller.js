@@ -8,14 +8,19 @@ export const loginUser = async (req,res)=>{
    try {
     
        console.log("login");
-       const {userName , password} = req.body;
+       const {userName , password} = req.body;   
    
        const user = await User.findOne({userName})
 const isPasswordCorrect = await bcrypt.compare(password , user?.password||"");
-       if(!user|| !isPasswordCorrect){
-        console.log("incorect usename or password")
-        res.status(400).json({error:"username or password incorrect"})
-        // throw error;
+       if(!user){
+           console.log("incorect username")
+           res.status(400).json({error:"username not found"})
+           // throw error;
+        }
+        else if( !isPasswordCorrect){
+            console.log("incorrect password")
+               res.status(400).json({error:"password incorrect"})
+
        }else{
            generateTokenAndSetCookie(user._id , res);
         
@@ -42,9 +47,9 @@ export const signupUser = async (req,res)=>{
  
  try{
 
-     console.log(req.body)
+    //  console.log(req.body)
      const { fullName , userName, password,confirmPassword , gender } = req.body;
-     console.log("here");
+    //  console.log("here");
      // res.send(req);
      if(password !==confirmPassword){
          return res.status(400).json({error:"passwords dont match"});
